@@ -14,7 +14,13 @@ class ServerEngine(private val sel: Selector) : Runner() {
     override fun exec() {
         sel.selectNow()
         val keys = sel.selectedKeys()
-        keys.forEach(::runSelectables)
+        val iterator = keys.iterator()
+
+        while (iterator.hasNext()) {
+            val key = iterator.next()
+            iterator.remove()
+            runSelectables(key)
+        }
     }
 
     private fun runSelectables(key: SelectionKey) {

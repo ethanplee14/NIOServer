@@ -13,8 +13,9 @@ abstract class Readable() : Selectable {
         val channel = key.channel()
         if (channel is SocketChannel) {
             val req = read(channel)
-            key.attach(req)
-            key.channel().register(key.selector(), SelectionKey.OP_WRITE)
+
+            if (req.isNotEmpty())
+                channel.register(key.selector(), SelectionKey.OP_WRITE, req)
         }
     }
 }
