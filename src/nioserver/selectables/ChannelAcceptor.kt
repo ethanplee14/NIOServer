@@ -1,12 +1,12 @@
-package nioserver.selectables.impl
+package nioserver.selectables
 
-import nioserver.selectables.Acceptable
+import nioserver.selectables.abstr.Acceptable
 import java.nio.channels.SelectionKey
 import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
 
 class ChannelAcceptor(private val serverChannel: ServerSocketChannel,
-                      private val clients: ArrayList<SocketChannel>? = null) : Acceptable() {
+                      private val clients: MutableList<SocketChannel>? = null) : Acceptable() {
 
 
     override fun acceptClient(key: SelectionKey): SocketChannel? {

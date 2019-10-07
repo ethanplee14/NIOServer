@@ -1,9 +1,9 @@
-package nioserver.selectables
+package nioserver.selectables.abstr
 
 import java.nio.channels.SelectionKey
 import java.nio.channels.SocketChannel
 
-abstract class Acceptable(): Selectable {
+abstract class Acceptable: Selectable {
 
     abstract fun acceptClient(key: SelectionKey): SocketChannel?
 

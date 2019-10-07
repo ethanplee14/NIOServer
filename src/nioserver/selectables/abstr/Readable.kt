@@ -1,4 +1,4 @@
-package nioserver.selectables
+package nioserver.selectables.abstr
 
 import java.nio.channels.SelectionKey
 import java.nio.channels.SocketChannel
@@ -14,7 +14,7 @@ abstract class Readable() : Selectable {
         if (channel is SocketChannel) {
             val req = read(channel)
             key.attach(req)
-            key.channel()?.register(key.selector(), SelectionKey.OP_WRITE)
+            key.channel().register(key.selector(), SelectionKey.OP_WRITE)
         }
     }
 }

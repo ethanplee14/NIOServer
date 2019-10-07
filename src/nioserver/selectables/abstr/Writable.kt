@@ -1,4 +1,4 @@
-package nioserver.selectables
+package nioserver.selectables.abstr
 
 import java.nio.channels.SelectionKey
 
@@ -12,5 +12,6 @@ abstract class Writable : Selectable {
         val attachment = key.attachment()
         if(attachment is String)
             write(attachment)
+        key.channel().register(key.selector(), SelectionKey.OP_READ)
     }
 }

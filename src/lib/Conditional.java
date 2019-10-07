@@ -1,4 +1,4 @@
-package nioserver;
+package lib;
 
 import java.util.function.BooleanSupplier;
 

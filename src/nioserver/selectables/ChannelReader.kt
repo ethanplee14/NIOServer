@@ -1,6 +1,6 @@
-package nioserver.selectables.impl
+package nioserver.selectables
 
-import nioserver.selectables.Readable
+import nioserver.selectables.abstr.Readable
 import java.nio.ByteBuffer
 import java.nio.channels.SocketChannel
 

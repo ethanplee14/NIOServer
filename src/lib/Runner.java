@@ -1,7 +1,5 @@
-package nioserver.runner;
+package lib;
 
-
-import nioserver.Conditional;
 
 public abstract class Runner extends Conditional implements Runnable {
 

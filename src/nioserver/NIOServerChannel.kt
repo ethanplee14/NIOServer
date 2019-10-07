@@ -1,4 +1,4 @@
-package nioserver.provider
+package nioserver
 
 import java.net.InetSocketAddress
 import java.nio.channels.SelectionKey
