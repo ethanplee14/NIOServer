@@ -1,18 +1,26 @@
 package nioserver.selectables
 
+import nioserver.Response
 import nioserver.selectables.abstr.Readable
-import java.lang.StringBuilder
 import java.nio.ByteBuffer
 import java.nio.channels.SocketChannel
 import java.nio.charset.StandardCharsets
-import java.util.*
+import java.util.function.BiConsumer
 
 class ChannelReader : Readable() {
 
+    var process = BiConsumer<String, Response> {req, res -> Unit}
     val KB = 1048
     private val nullChar = "\u0000"
 
     override fun read(channel: SocketChannel): String {
+        val req = readChannel(channel)
+        val res = Response()
+        process.accept(req, res)
+        return if (res.available()) res.msg else ""
+    }
+
+    private fun readChannel(channel: SocketChannel): String {
         val buffer = ByteBuffer.allocate(KB)
         channel.read(buffer)
         buffer.clear()

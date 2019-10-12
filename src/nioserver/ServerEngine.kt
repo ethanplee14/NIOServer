@@ -1,6 +1,6 @@
 package nioserver
 
-import lib.Runner
+import nioserver.lib.Runner
 import nioserver.selectables.abstr.Selectable
 import java.nio.channels.SelectionKey
 import java.nio.channels.Selector

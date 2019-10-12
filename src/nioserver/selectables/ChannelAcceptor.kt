@@ -8,7 +8,6 @@ import java.nio.channels.SocketChannel
 class ChannelAcceptor(private val serverChannel: ServerSocketChannel,
                       private val clients: MutableList<SocketChannel>? = null) : Acceptable() {
 
-
     override fun acceptClient(key: SelectionKey): SocketChannel? {
         val client = serverChannel.accept()
         client?.configureBlocking(false)

@@ -1,25 +1,10 @@
-import nioserver.NIOServerChannel
-import nioserver.ServerEngine
-import nioserver.selectables.ChannelAcceptor
-import nioserver.selectables.ChannelReader
-import nioserver.selectables.ChannelResponder
-import java.nio.channels.Selector
-import java.util.function.BiConsumer
+import nioserver.Server
 
 fun main() {
-    val sel = Selector.open()
-    val serverChannel = NIOServerChannel(1337, sel).get()
-    val engine = ServerEngine(sel)
-    val responder = ChannelResponder()
-
-    responder.add(BiConsumer {req, res ->
+    val server = Server(1337)
+    server.use { req, res ->
         println("Req: $req Res: $res")
-    })
-
-    engine.add(ChannelAcceptor(serverChannel))
-    engine.add(ChannelReader())
-    engine.add(responder)
-
-    println("Starting server")
-    engine.run()
+        res.send("Lmfao sending out this message")
+    }
+    server.run()
 }

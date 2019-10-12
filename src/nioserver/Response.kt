@@ -13,5 +13,7 @@ open class Response {
 
     fun end() { end = true }
 
+    fun available() = msg.isNotEmpty()
+
     override fun toString(): String = "Res: msg[$msg] ended[$end]"
 }

@@ -3,7 +3,7 @@ package nioserver.selectables.abstr
 import java.nio.channels.SelectionKey
 import java.nio.channels.SocketChannel
 
-abstract class Readable() : Selectable {
+abstract class Readable : Selectable {
 
     abstract fun read(channel: SocketChannel): String
 
@@ -12,10 +12,10 @@ abstract class Readable() : Selectable {
     override fun accept(key: SelectionKey) {
         val channel = key.channel()
         if (channel is SocketChannel) {
-            val req = read(channel)
+            val res = read(channel)
 
-            if (req.isNotEmpty())
-                channel.register(key.selector(), SelectionKey.OP_WRITE, req)
+            if (res.isNotEmpty())
+                channel.register(key.selector(), SelectionKey.OP_WRITE, res)
         }
     }
 }
