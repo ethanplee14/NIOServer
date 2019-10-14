@@ -6,7 +6,6 @@ import java.nio.channels.SocketChannel
 
 class ChannelWriter : Writable() {
 
-
     override fun write(channel: SocketChannel, msg: String) {
         if(msg.isEmpty()) return
 

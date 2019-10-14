@@ -2,31 +2,46 @@ package nioserver
 
 import nioserver.lib.Runner
 import nioserver.selectables.abstr.Selectable
+import java.io.IOException
 import java.nio.channels.SelectionKey
 import java.nio.channels.Selector
+import java.nio.channels.SocketChannel
 
-class ServerEngine(private val sel: Selector) : Runner() {
+class ServerEngine(private val sel: Selector,
+                   private val clients: MutableList<SocketChannel>) : Runner() {
 
     private val selectables = ArrayList<Selectable>()
 
     fun add(vararg sel: Selectable) = selectables.addAll(sel)
 
     override fun exec() {
-        sel.selectNow()
-        val keys = sel.selectedKeys()
-        val iterator = keys.iterator()
+        val iterator = keyIterator()
 
         while (iterator.hasNext()) {
             val key = iterator.next()
             iterator.remove()
-            runSelectables(key)
+
+            for (selectable in selectables)
+                acceptKey(selectable, key)
+
+            println(clients.size)
         }
     }
 
-    private fun runSelectables(key: SelectionKey) {
-        selectables.forEach {
-            if (it.condition(key))
-                it.accept(key)
+    private fun keyIterator(): MutableIterator<SelectionKey> {
+        sel.selectNow()
+        val keys = sel.selectedKeys()
+        return keys.iterator()
+    }
+
+    private fun acceptKey(sel: Selectable, key: SelectionKey) {
+        try{
+            if(sel.condition(key))
+                sel.accept(key)
+        }catch (e: Exception) {
+            println("Client disconnected")
+            clients.remove(key.channel())
+            key.channel().close()
         }
     }
 }

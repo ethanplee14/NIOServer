@@ -5,6 +5,7 @@ import nioserver.selectables.abstr.Readable
 import java.nio.ByteBuffer
 import java.nio.channels.SocketChannel
 import java.nio.charset.StandardCharsets
+import java.util.*
 import java.util.function.BiConsumer
 
 class ChannelReader : Readable() {
@@ -15,9 +16,11 @@ class ChannelReader : Readable() {
 
     override fun read(channel: SocketChannel): String {
         val req = readChannel(channel)
+        if (req.isEmpty()) return ""
+
         val res = Response()
         process.accept(req, res)
-        return if (res.available()) res.msg else ""
+        return res.msg
     }
 
     private fun readChannel(channel: SocketChannel): String {

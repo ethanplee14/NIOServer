@@ -5,7 +5,7 @@ import java.nio.channels.SocketChannel
 
 abstract class Writable : Selectable {
 
-    abstract fun write(channel: SocketChannel, req: String)
+    abstract fun write(channel: SocketChannel, msg: String)
 
     override fun condition(key: SelectionKey): Boolean = key.isWritable
 

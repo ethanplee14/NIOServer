@@ -14,6 +14,7 @@ class ChannelAcceptor(private val serverChannel: ServerSocketChannel,
         client?.let {
             println("Client connected: " + it.remoteAddress)
             clients?.add(it)
+            println(clients?.size)
         }
         return client
     }
