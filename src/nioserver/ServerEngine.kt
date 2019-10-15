@@ -7,7 +7,7 @@ import java.nio.channels.Selector
 import java.nio.channels.SocketChannel
 
 class ServerEngine(private val sel: Selector,
-                   private val clients: MutableList<SocketChannel>) : Runner() {
+                   private val clients: MutableList<SocketChannel>?) : Runner() {
 
     private val selectables = ArrayList<Selectable>()
 
@@ -23,8 +23,8 @@ class ServerEngine(private val sel: Selector,
             for (selectable in selectables)
                 acceptKey(selectable, key)
 
-            println(clients.size)
         }
+        println(clients?.size)
     }
 
     private fun keyIterator(): MutableIterator<SelectionKey> {
@@ -39,7 +39,7 @@ class ServerEngine(private val sel: Selector,
                 sel.accept(key)
         }catch (e: Exception) {
             println("Client disconnected")
-            clients.remove(key.channel())
+            clients?.remove(key.channel())
             key.channel().close()
         }
     }

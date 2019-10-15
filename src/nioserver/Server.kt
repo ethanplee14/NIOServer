@@ -14,14 +14,14 @@ import java.util.function.BiConsumer
 
 class Server(private val port: Int): Runnable {
 
-    val clients = mutableListOf<SocketChannel>()
-        get() = field.toMutableList()
+    private val _clients = mutableListOf<SocketChannel>()
+    val clients get() = _clients.toMutableList()
 
     private val sel = Selector.open()
     private val serverChannel = NIOServerChannel(port, sel).get()
-    private val engine = ServerEngine(sel, clients)
+    private val engine = ServerEngine(sel, _clients)
 
-    private val acceptor = ChannelAcceptor(serverChannel, clients)
+    private val acceptor = ChannelAcceptor(serverChannel, _clients)
     private val reader = ChannelReader()
     private val writer = ChannelWriter()
     private val middleware = Middleware()
