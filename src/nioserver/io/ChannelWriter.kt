@@ -1,12 +1,11 @@
-package nioserver.selectables
+package nioserver.io
 
-import nioserver.selectables.abstr.Writable
 import java.nio.ByteBuffer
 import java.nio.channels.SocketChannel
 
-class ChannelWriter : Writable() {
+class ChannelWriter: (SocketChannel, String) -> Unit {
 
-    override fun write(channel: SocketChannel, msg: String) {
+    override fun invoke(channel: SocketChannel, msg: String) {
         if(msg.isEmpty()) return
 
         val buffer = ByteBuffer.wrap(msg.toByteArray())

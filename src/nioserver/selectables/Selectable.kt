@@ -1,4 +1,4 @@
-package nioserver.selectables.abstr
+package nioserver.selectables
 
 import java.nio.channels.SelectionKey
 import java.util.function.Consumer

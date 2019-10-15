@@ -2,9 +2,12 @@ package nioserver
 
 import nioserver.builders.Middleware
 import nioserver.builders.NIOServerChannel
-import nioserver.selectables.ChannelAcceptor
-import nioserver.selectables.ChannelReader
-import nioserver.selectables.ChannelWriter
+import nioserver.io.ChannelAcceptor
+import nioserver.io.ChannelReader
+import nioserver.io.ChannelWriter
+import nioserver.selectables.Acceptable
+import nioserver.selectables.Readable
+import nioserver.selectables.Writable
 import java.nio.channels.Selector
 import java.nio.channels.SocketChannel
 import java.util.function.BiConsumer
@@ -31,11 +34,13 @@ class Server(private val port: Int): Runnable {
 
     fun use(func: (String, Response) -> Unit) = middleware.add(BiConsumer(func))
 
+    fun send(channel: SocketChannel, msg: String) = writer.invoke(channel, msg)
+
     private fun buildEngine() {
         reader.process = middleware.get()
 
-        engine.add(acceptor)
-        engine.add(reader)
-        engine.add(writer)
+        engine.add(Acceptable(acceptor))
+        engine.add(Readable(reader))
+        engine.add(Writable(writer))
     }
 }

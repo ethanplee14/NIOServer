@@ -1,11 +1,9 @@
-package nioserver.selectables.abstr
+package nioserver.selectables
 
 import java.nio.channels.SelectionKey
 import java.nio.channels.SocketChannel
 
-abstract class Writable : Selectable {
-
-    abstract fun write(channel: SocketChannel, msg: String)
+class Writable(private val write: (SocketChannel, String) -> Unit) : Selectable {
 
     override fun condition(key: SelectionKey): Boolean = key.isWritable
 

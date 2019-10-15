@@ -1,11 +1,9 @@
-package nioserver.selectables.abstr
+package nioserver.selectables
 
 import java.nio.channels.SelectionKey
 import java.nio.channels.SocketChannel
 
-abstract class Readable : Selectable {
-
-    abstract fun read(channel: SocketChannel): String
+class Readable(private val read: (SocketChannel) -> String) : Selectable {
 
     override fun condition(key: SelectionKey): Boolean = key.isReadable
 

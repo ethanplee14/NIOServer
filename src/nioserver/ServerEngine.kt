@@ -1,8 +1,7 @@
 package nioserver
 
 import nioserver.lib.Runner
-import nioserver.selectables.abstr.Selectable
-import java.io.IOException
+import nioserver.selectables.Selectable
 import java.nio.channels.SelectionKey
 import java.nio.channels.Selector
 import java.nio.channels.SocketChannel
