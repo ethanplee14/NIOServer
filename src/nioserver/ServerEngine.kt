@@ -2,6 +2,7 @@ package nioserver
 
 import nioserver.lib.Runner
 import nioserver.selectables.Selectable
+import java.io.IOException
 import java.nio.channels.SelectionKey
 import java.nio.channels.Selector
 import java.nio.channels.SocketChannel
@@ -24,7 +25,6 @@ class ServerEngine(private val sel: Selector,
                 acceptKey(selectable, key)
 
         }
-        println(clients?.size)
     }
 
     private fun keyIterator(): MutableIterator<SelectionKey> {
@@ -35,10 +35,10 @@ class ServerEngine(private val sel: Selector,
 
     private fun acceptKey(sel: Selectable, key: SelectionKey) {
         try{
-            if(sel.condition(key))
+            if(key.isValid && sel.condition(key))
                 sel.accept(key)
-        }catch (e: Exception) {
-            println("Client disconnected")
+        }catch (e: IOException) {
+            println("Disconnected")
             clients?.remove(key.channel())
             key.channel().close()
         }

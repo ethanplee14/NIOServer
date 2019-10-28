@@ -1,50 +1,34 @@
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.io.PrintWriter
+import java.io.*
 import java.net.Socket
-
-//fun main() {
-//    val socket = Socket("localhost", 1337)
-//    val out = PrintWriter(socket.getOutputStream(), true)
-//    val reader = BufferedReader(InputStreamReader(socket.getInputStream()))
-//
-//    out.println("This is some different data...")
-//
-//    println("Reading")
-//
-//    var ready: Boolean
-//    do {
-//        print(reader.read().toChar())
-//        ready = reader.ready()
-//    }while (ready)
-//    println()
-//    println("Finished")
-//
-//    var socket2 = Socket("localhost", 1337)
-//
-//    while(true) {Thread.sleep(500)}
-//    out.close()
-//    reader.close()
-//    socket.close()
-//}
+import java.util.*
 
 fun main() {
-    var person = Person()
+    val socket = Socket("localhost", 1337)
 
+    val out = PrintWriter(socket.getOutputStream(), true)
+    val reader = BufferedReader(InputStreamReader(socket.getInputStream()))
+
+    Thread { read(reader)}.start()
+    write(out)
+}
+
+private fun read(reader: Reader) {
     while(true) {
-        println(person.friends.size)
-        person.addFriend()
-        Thread.sleep(500)
+        val builder = StringBuilder()
+        while (reader.ready()) {
+            builder.append(reader.read().toChar())
+        }
+        if(builder.isNotEmpty())
+            println(builder)
+        builder.clear()
     }
 }
 
-class Person {
-
-    val friends = mutableListOf<String>()
-        get() = field.toMutableList()
-
-    fun addFriend() {
-        friends.add("Friend ${friends.size+1}")
-        println(friends.size)
+private fun write(writer: Writer) {
+    val scanner = Scanner(System.`in`)
+    while (true) {
+        val input = scanner.nextLine()
+        writer.write(input)
+        writer.flush()
     }
 }

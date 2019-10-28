@@ -6,7 +6,7 @@ import java.util.function.Supplier
 
 class Middleware: Supplier<BiConsumer<String, Response>> {
 
-    private var middleware = BiConsumer<String, Response>{ req, res -> Unit}
+    private var middleware = BiConsumer<String, Response>{ req, res -> Unit }
 
     override fun get(): BiConsumer<String, Response> = middleware
 

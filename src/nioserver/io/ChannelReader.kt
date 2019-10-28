@@ -9,7 +9,7 @@ import java.util.function.BiConsumer
 
 class ChannelReader: (SocketChannel) -> String {
 
-    var process = BiConsumer<String, Response> {req, res -> Unit}
+    var process = BiConsumer<String, Response> { req, res -> Unit }
     val KB = 1048
     private val nullChar = "\u0000"
 

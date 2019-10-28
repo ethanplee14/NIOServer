@@ -6,21 +6,18 @@ import java.net.Socket
 
 
 fun main() {
-    val server = ServerSocket(8000)
+    val server = ServerSocket(1337)
 
     var socket: Socket
     while (true) {
         socket = server.accept()
         println("Socket accepted from: ${socket.remoteSocketAddress}")
-        val reader = BufferedReader(InputStreamReader(socket.getInputStream()))
         var writer = PrintWriter(socket.getOutputStream(), true)
-
-        println("> " + reader.readLine())
-
+        println("Writing message")
         writer.print("Printing a message")
         writer.flush()
-
         socket.close()
+        println("Closed")
     }
 //    println("Reading in")
 //    println("> " + reader.readLine())
